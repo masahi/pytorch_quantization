@@ -63,7 +63,7 @@ qmodels = [
     ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
     ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
     ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
-    ("googlenet", False, qgooglenet(pretrained=True).eval()),
+    # ("googlenet", False, qgooglenet(pretrained=True).eval()), qgooglenet broken in torch-1.7
 ]
 
 if torch_version_check():
