@@ -22,6 +22,7 @@ from torchvision.models.quantization import resnet as qresnet
 from torchvision.models.quantization import mobilenet as qmobilenet
 from torchvision.models.quantization import inception as qinception
 from torchvision.models.quantization import googlenet as qgooglenet
+from torchvision.models.quantization import mobilenet_v3_large as qmobilenet_v3_large
 
 import tvm
 
@@ -59,10 +60,11 @@ logging.warning(msg)
 
 # Mobilenet v2 was trained using QAT, post training calibration is disabled
 qmodels = [
-    ("resnet18", False, qresnet.resnet18(pretrained=True).eval()),
-    ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
-    ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
-    ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
+    # ("resnet18", False, qresnet.resnet18(pretrained=True).eval()),
+    # ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
+    # ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
+    # ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
+    ("mobilenet_v3_large", True, qmobilenet_v3_large(pretrained=True).eval())
     # ("googlenet", False, qgooglenet(pretrained=True).eval()), qgooglenet broken in torch-1.7
 ]
 
