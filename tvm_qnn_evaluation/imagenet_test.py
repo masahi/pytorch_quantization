@@ -60,11 +60,11 @@ logging.warning(msg)
 
 # Mobilenet v2 was trained using QAT, post training calibration is disabled
 qmodels = [
-    # ("resnet18", False, qresnet.resnet18(pretrained=True).eval()),
-    # ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
-    # ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
-    # ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
-    ("mobilenet_v3_large", True, qmobilenet_v3_large(pretrained=True).eval())
+    ("resnet18", False, qresnet.resnet18(pretrained=True).eval()),
+    ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
+    ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
+    ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
+    ("mobilenet_v3_large", True, qmobilenet_v3_large(pretrained=True, quantize=True).eval())
     # ("googlenet", False, qgooglenet(pretrained=True).eval()), qgooglenet broken in torch-1.7
 ]
 
@@ -120,9 +120,11 @@ for (model_name, dummy_calib, raw_model) in qmodels:
     inp = get_imagenet_input(inception)
     pt_inp = torch.from_numpy(inp)
 
-    quantize_model(data_dir, raw_model, pt_inp, per_channel=per_channel,
-                   dummy=dummy_calib, max_samples=1000,
-                   use_random_data=use_random_data, inception=inception)
+    if "mobilenet_v3_large" not in model_name:
+        quantize_model(data_dir, raw_model, pt_inp, per_channel=per_channel,
+                       dummy=dummy_calib, max_samples=1000,
+                       use_random_data=use_random_data, inception=inception)
+
     script_module = torch.jit.trace(raw_model, pt_inp).eval()
 
     with torch.no_grad():
