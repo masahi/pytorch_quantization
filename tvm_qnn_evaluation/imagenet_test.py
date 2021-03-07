@@ -62,9 +62,9 @@ logging.warning(msg)
 qmodels = [
     ("resnet18", False, qresnet.resnet18(pretrained=True).eval()),
     ("resnet50", False, qresnet.resnet50(pretrained=True).eval()),
-    ("mobilenet_v2", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
+    ("mobilenet_v2 (QAT)", True, qmobilenet.mobilenet_v2(pretrained=True).eval()),
     ("inception_v3", False, qinception.inception_v3(pretrained=True).eval()),
-    ("mobilenet_v3_large", True, qmobilenet_v3_large(pretrained=True, quantize=True).eval())
+    ("mobilenet_v3_large (QAT)", True, qmobilenet_v3_large(pretrained=True, quantize=True).eval())
     # ("googlenet", False, qgooglenet(pretrained=True).eval()), qgooglenet broken in torch-1.7
 ]
 
@@ -75,7 +75,7 @@ if torch_version_check():
     from qmobilenet_v3 import load_model
 
     model_file = "../data/mobilenetv3small-f3be529c.pth"
-    qmodels.append(("mobilenet_v3 small", False, load_model(model_file).eval()))
+    qmodels.append(("mobilenet_v3_small", False, load_model(model_file).eval()))
 else:
     print("Mobilenet v3 test requires a nightly build via pip, skipping.")
 
